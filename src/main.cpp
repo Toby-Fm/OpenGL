@@ -1,7 +1,9 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
-#include <gl/GL.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 const char* vertexShaderSource = R"(
     #version 330 core
@@ -37,8 +39,8 @@ int main() {
 
     // Erstelle ein GLFW-Fenster mit bestimmten Abmessungen und Titel
     GLFWwindow* window = glfwCreateWindow(
-        800, 
-        600, 
+        1920, 
+        1080, 
         "Was zum flying fuck alter", 
         NULL, 
         NULL
@@ -76,7 +78,10 @@ int main() {
     glLinkProgram(shaderProgram);
     glUseProgram(shaderProgram);
 
-    // Erzeuge und binden Sie das Vertex-Array-Objekt (VAO) und Vertex Buffer Object (VBO)
+    // Setze den Rotationswinkel
+    float angle = 0.0f;
+
+    // Erzeuge und binde das Vertex-Array-Objekt (VAO) und Vertex Buffer Object (VBO)
     unsigned int VAO, VBO;
     glGenVertexArrays(1, &VAO);
     glGenBuffers(1, &VBO);
@@ -100,12 +105,22 @@ int main() {
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
+        // Erzeuge die Rotationsmatrix
+        glm::mat4 model = glm::rotate(glm::mat4(1.0f), glm::radians(angle), glm::vec3(0.0f, 0.0f, 1.0f));
+
+        // Setze die Modelmatrix im Shader
+        unsigned int modelLoc = glGetUniformLocation(shaderProgram, "model");
+        glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
+
         glUseProgram(shaderProgram);
         glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLES, 0, 3);
         glBindVertexArray(0);
 
         glfwSwapBuffers(window);
+
+        // Erhöhe den Rotationswinkel für die nächste Iteration
+        angle += 0.5f;
     }
 
     // Aufräumen und GLFW beenden
