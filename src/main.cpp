@@ -118,24 +118,24 @@ int main() {
     while (!glfwWindowShouldClose(window)) {
         glfwPollEvents();  // Verarbeite alle ausstehenden Ereignisse
 
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f); //1. Rot, 2. Grün, 3. Blau, 4. Aplhawert (Transparent)
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         glEnable(GL_DEPTH_TEST);
 
         // Ändere die Position der Kamera (View-Matrix)
-        glm::mat4 view = glm::lookAt(glm::vec3(20.0f, 20.0f, 20.0f),   // Kameraposition
+        glm::mat4 view = glm::lookAt(glm::vec3(15.0f, 15.0f, 15.0f),   // Kameraposition
                                     glm::vec3(0.0f, 0.0f, 0.0f),   // Anvisierter Punkt
-                                    glm::vec3(0.0f, -5.0f, 0.0f));  // Up-Vektor
+                                    glm::vec3(0.0f, 1.0f, 0.0f));  // Up-Vektor
 
         // Erzeuge die Projektionsmatrix (Perspektive)
-        glm::mat4 projection = glm::perspective(glm::radians(50.0f), 1920.0f / 1080.0f, 0.1f, 100.0f);
+        glm::mat4 projection = glm::perspective(glm::radians(60.0f), 1920.0f / 1080.0f, 0.1f, 100.0f);
 
         // Zeichne mehrere Würfel
         for (int i = 0; i < 10; ++i) {
             // Erzeuge die Modelmatrix (Rotationsmatrix) und animiere sie
             float angle = glm::radians(40.0f * i + static_cast<float>(glfwGetTime()) * 50.0f);
-            glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(cos(angle) * 10.0f, sin(angle) * 3.0f, 0.0f));
+            glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(cos(angle) * 10.0f, sin(angle) * 10.0f, 0.0f));
             model = glm::rotate(model, angle, glm::vec3(1.0f, 1.0f, 1.0f));
 
             // Setze die Matrizen im Shader
