@@ -1,3 +1,6 @@
 all:
-	g++ -g --std=c++20 -Iinclude -Llib src/*.cpp src/glad.c -lglfw3dll -o main
-#	g++ -Iinclude -Iinclude/GLFW -Iinclude/glad -Iinclude/headers -Llib -o Main src/*.cpp src/*.c -lglfw3dll -lmingw32
+	g++ -Iinclude -Iinclude/GLFW -Iinclude/glad -Iinclude/headers -Llib -o main src/*.cpp src/*.c -lglfw3dll 
+#g++ -g --std=c++20 -Iinclude -Llib src/*.cpp src/glad.c -lglfw3dll -o main
+
+clean:
+	rm -rf main *.o *.exe
